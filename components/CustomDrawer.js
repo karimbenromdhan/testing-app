@@ -5,7 +5,14 @@ export default function CustomDrawer() {
   const [activeTab, setActiveTab] = useState('Categories');
 
   const renderOptions = () => {
-    if (activeTab === 'Categories') {
+    if (activeTab === 'Home') {
+      return (
+        <>
+          <Text style={styles.option}>Location</Text>
+          <Text style={styles.option}>Contact</Text>
+        </>
+      );
+    } else if (activeTab === 'Categories') {
       return (
         <>
           <Text style={styles.option}>Laptop</Text>
@@ -25,6 +32,18 @@ export default function CustomDrawer() {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            activeTab === 'Home' && styles.activeButton,
+          ]}
+          onPress={() => setActiveTab('Home')}
+        >
+          <Text style={[
+            styles.buttonText,
+            activeTab === 'Home' && styles.activeButtonText
+          ]}>Home</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.button,
