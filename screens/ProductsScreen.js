@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -62,7 +62,7 @@ export default function ProductsScreen({ addToCart, route }) {
       case 'latest':
         filteredProducts = filteredProducts
           .sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded))
-          .slice(0, 2); // Show only the 2 most recent products
+          .slice(0, 2);
         break;
       default:
         break;
@@ -71,7 +71,15 @@ export default function ProductsScreen({ addToCart, route }) {
     setProducts(filteredProducts);
   }, [filter]);
 
-  const renderProduct = ({ item }) => (
+  const handleAddToCart = useCallback((item, event) => {
+    // Prevent default behavior
+    event?.preventDefault();
+    event?.stopPropagation();
+    
+    addToCart(item);
+  }, [addToCart]);
+
+  const renderProduct = useCallback(({ item }) => (
     <View style={styles.productCard}>
       <Image
         source={{ uri: item.image }}
@@ -88,16 +96,14 @@ export default function ProductsScreen({ addToCart, route }) {
       </View>
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => {
-          addToCart(item);
-          // Optional: Show some feedback when item is added
-        }}
+        onPress={(event) => handleAddToCart(item, event)}
+        activeOpacity={0.7}
       >
         <MaterialIcons name="add-shopping-cart" size={24} color="#fff" />
         <Text style={styles.addButtonText}>Add to Cart</Text>
       </TouchableOpacity>
     </View>
-  );
+  ), [handleAddToCart]);
 
   return (
     <View style={styles.container}>
@@ -114,6 +120,10 @@ export default function ProductsScreen({ addToCart, route }) {
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.productList}
         showsVerticalScrollIndicator={false}
+        removeClippedSubviews={false}
+        initialNumToRender={products.length}
+        maxToRenderPerBatch={products.length}
+        windowSize={5}
       />
     </View>
   );
