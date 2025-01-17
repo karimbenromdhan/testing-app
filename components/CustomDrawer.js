@@ -10,17 +10,41 @@ export default function CustomDrawer() {
     switch (option) {
       case 'Newest':
         navigation.dispatch(
-          CommonActions.navigate({
-            name: 'Products',
-            params: { filter: 'newest' }
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'HomeTab',
+                state: {
+                  routes: [
+                    {
+                      name: 'Products',
+                      params: { filter: 'newest' }
+                    }
+                  ]
+                }
+              }
+            ]
           })
         );
         break;
       case 'Latest':
         navigation.dispatch(
-          CommonActions.navigate({
-            name: 'Products',
-            params: { filter: 'latest' }
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'HomeTab',
+                state: {
+                  routes: [
+                    {
+                      name: 'Products',
+                      params: { filter: 'latest' }
+                    }
+                  ]
+                }
+              }
+            ]
           })
         );
         break;

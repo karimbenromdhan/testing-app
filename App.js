@@ -32,11 +32,19 @@ function DrawerNavigator({ addToCart }) {
         },
       }}
     >
-      <Drawer.Screen name="HomeDrawer" component={HomeScreen} options={{ title: 'Home' }} />
-      <Drawer.Screen name="Categories" component={CategoriesScreen} />
+      <Drawer.Screen 
+        name="HomeDrawer" 
+        component={HomeScreen} 
+        options={{ title: 'Home' }} 
+      />
+      <Drawer.Screen 
+        name="Categories" 
+        component={CategoriesScreen} 
+      />
       <Drawer.Screen 
         name="Products" 
         component={(props) => <ProductsScreen {...props} addToCart={addToCart} />}
+        options={{ unmountOnBlur: true }}
       />
     </Drawer.Navigator>
   );
