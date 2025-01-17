@@ -1,8 +1,33 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 
 export default function CustomDrawer() {
   const [activeTab, setActiveTab] = useState('Categories');
+  const navigation = useNavigation();
+
+  const handleOptionPress = (option) => {
+    switch (option) {
+      case 'Newest':
+        navigation.dispatch(
+          CommonActions.navigate({
+            name: 'Products',
+            params: { filter: 'newest' }
+          })
+        );
+        break;
+      case 'Latest':
+        navigation.dispatch(
+          CommonActions.navigate({
+            name: 'Products',
+            params: { filter: 'latest' }
+          })
+        );
+        break;
+      default:
+        break;
+    }
+  };
 
   const renderOptions = () => {
     if (activeTab === 'Home') {
@@ -22,8 +47,12 @@ export default function CustomDrawer() {
     } else {
       return (
         <>
-          <Text style={styles.option}>Newest</Text>
-          <Text style={styles.option}>Latest</Text>
+          <TouchableOpacity onPress={() => handleOptionPress('Newest')}>
+            <Text style={styles.option}>Newest</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleOptionPress('Latest')}>
+            <Text style={styles.option}>Latest</Text>
+          </TouchableOpacity>
         </>
       );
     }
